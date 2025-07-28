@@ -6,6 +6,8 @@ import router from './router'
 import ArcoVue from '@arco-design/web-vue';
 import ArcoVueIcon from '@arco-design/web-vue/es/icon';
 import '@arco-design/web-vue/dist/arco.css';
+import '@/assets/public.less'
+import '@/assets/iconfont.css'
 const app = createApp(App)
 
 app.use(createPinia())

@@ -1,32 +1,12 @@
 <script setup lang="ts">
-import { ref } from "vue"
-const theme=ref('light')
 
-// 设置黑夜模式
-function setThem(val: string) {
-  if (val === "dark") {
-    document.body.setAttribute('arco-theme','dark')
-  } else {
-    document.body.removeAttribute('arco-theme')
-  }
-  theme.value = val
-  localStorage.setItem("theme",val)
-}
-
-function loadTheme() {
-  const val=localStorage.getItem("theme")
-  if (val === "dark") {
-      setThem(val)
-  }
-}
-
+import {theme,setThem,loadTheme} from'@/components/common/zx_theme.ts'
 loadTheme()
-
 </script>
 
 <template>
-  <icon-sun-fill v-if="theme==='dark'" @click="setThem('light')"/>
-  <icon-moon-fill v-if="theme==='light'" @click="setThem('dark')"/>
+  <span title="亮色模式"><icon-sun-fill v-if="theme==='dark'" @click="setThem('light')"/></span>
+  <span title="暗色模式"><icon-moon-fill v-if="theme==='light'" @click="setThem('dark')"/></span>
 </template>
 
 <style scoped>
