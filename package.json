@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev1": "vite --mode dev1",
     "build": "run-p type-check \"build-only {@}\" --",
     "preview": "vite preview",
     "build-only": "vite build",
@@ -14,7 +15,10 @@
     "lint": "run-s lint:*"
   },
   "dependencies": {
+    "axios": "^1.11.0",
+    "nprogress": "^0.2.0",
     "pinia": "^3.0.3",
+    "swiper": "^11.2.10",
     "vue": "^3.5.17",
     "vue-router": "^4.5.1"
   },
@@ -22,6 +26,7 @@
     "@arco-design/web-vue": "^2.57.0",
     "@tsconfig/node22": "^22.0.2",
     "@types/node": "^22.15.32",
+    "@types/nprogress": "^0.2.3",
     "@vitejs/plugin-vue": "^4.5.0",
     "@vue/eslint-config-typescript": "^14.5.1",
     "@vue/tsconfig": "^0.7.0",

@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import NProgress from "nprogress";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -86,4 +87,13 @@ const router = createRouter({
   ],
 })
 
+router.beforeEach((to, from, next) => {
+  NProgress.start();//开启进度条
+  next()
+})
+//当路由进入后,关闭进度条
+router.afterEach((to, from, next) => {
+  //即将进入新页面组件潜.关闭进度条
+  NProgress.done();
+})
 export default router

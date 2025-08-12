@@ -8,6 +8,7 @@ import zx_breadcrumb from "@/components/admin/zx_breadcrumb.vue";
 import Zx_user_dropdown from "@/components/common/zx_user_dropdown.vue";
 import router from "@/router";
 import Zx_logo from "@/components/admin/zx_logo.vue";
+import Zx_tabs from "@/components/admin/zx_tabs.vue";
 
 
 
@@ -33,17 +34,18 @@ function goHome() {
           <zx_user_dropdown></zx_user_dropdown>
         </div>
       </div>
-      <div class="zx_tabs">
-
-      </div>
-      <div class="zx_container">
-        <router-view></router-view>
+      <zx_tabs></zx_tabs>
+      <div class="zx_container scrollbar">
+        <router-view class="zx_base_view" v-slot="{ Component }">
+          <transition name="fade" mode="out-in">
+            <component :is="Component"></component>
+          </transition>
+        </router-view>
       </div>
     </div>
   </div>
 </template>
 <style lang="less">
-
 
 .zx_admin{
   display: flex;
@@ -98,7 +100,34 @@ function goHome() {
       overflow-x: hidden;
       width: 100%;
       background-color: @color-fill-2;
+      padding: 20px;
+
+
+      .zx_base_view{
+        background-color: var(--color-bg-1);
+        border-radius: 5px;
+        height: 10000px;
+      }
     }
   }
+}
+
+.fade-leave-active {
+
+}
+.fade-leave-to{
+  transform: translateX(30px);
+  opacity: 0;
+}
+.fade-enter-active{
+  transform: translateX(-30px);
+  opacity: 0;
+}
+.fade-enter-to{
+  transform: translateX(0);
+  opacity: 1;
+}
+.fade-leave-active, .fade-enter-active{
+  transition: all .3s ease-out;
 }
 </style>

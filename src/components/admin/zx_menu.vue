@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import {type Component, ref} from "vue";
+import {type Component, ref,watch} from "vue";
 import {IconHome, IconUser, IconSettings, IconUserGroup} from "@arco-design/web-vue/es/icon";//icon图标
 import zx_component from "@/components/common/zx_component.vue";
 import {collapsed} from"@/components/admin/zx_menu.ts"
@@ -50,13 +50,19 @@ function menuItemClick (key:string) {
   })
 }
 
+const selectedKeys=ref<string[]>([])
 const openkeys=ref<string[]>([])//菜单默认展开
 function initRoute(){
   if (route.matched.length===3){
     openkeys.value=[route.matched[1].name as string]
   }
+  selectedKeys.value=[route.name as string]
 }
-initRoute()
+
+watch(()=>route.name,()=>{
+  initRoute();
+},{immediate:true})
+
 
 </script>
 
@@ -67,7 +73,7 @@ initRoute()
         @menu-item-click="menuItemClick"
         v-model:collapsed="collapsed"
         v-model:open-keys="openkeys"
-        :default-selected-keys="[route.name]"
+        v-model:selected-keys="selectedKeys"
         show-collapse-button
       >
         <template v-for="menu in menuList">
