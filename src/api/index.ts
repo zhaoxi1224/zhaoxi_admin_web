@@ -1,6 +1,24 @@
 import axios from "axios";
 import {Message} from "@arco-design/web-vue";
+import {userStorei} from "@/stores/user_store";
 
+export interface baseResponse <T>{
+  code: number;
+  msg: string;
+  data:T
+}
+
+export interface listResponse <T>{
+  list: T[]
+  count: number
+}
+
+export interface paramsType{
+  key?: string;
+  limit?: number;
+  page?: number;
+  sort?: string;
+}
 
 export const useAxios = axios.create({
   timeout:6000,
@@ -10,7 +28,9 @@ export const useAxios = axios.create({
 
 
 useAxios.interceptors.request.use((config)=>{
-  config.headers.set("token","xxx")
+  const userStore = userStorei();
+
+  config.headers.set("token",userStore.userInfo.token)
   return config;
 })
 

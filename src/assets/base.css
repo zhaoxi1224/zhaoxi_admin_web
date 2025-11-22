@@ -4,3 +4,7 @@
   box-sizing: border-box;
   margin: 0;
 }
+/* edge浏览器隐藏密码框的眼睛图标*/
+input::-ms-reveal {
+  display: none;
+}

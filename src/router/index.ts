@@ -1,5 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import NProgress from "nprogress";
+import {userStorei} from "@/stores/user_store.ts";
+import {Message} from "@arco-design/web-vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -7,8 +9,8 @@ const router = createRouter({
     {
       name: "web",
       path: "/",
-      // component:()=>import("@/views/web/IndexView.vue")
-      redirect: "/admin",
+      component: ()=>import("@/views/web/IndexView.vue"),
+      // redirect: "/admin"
     },
     {
       name: "login",
@@ -20,7 +22,8 @@ const router = createRouter({
       path: "/admin",
       component:()=>import("@/views/admin/IndexView.vue"),
       meta:{
-        title:"首页"
+        title:"首页",
+        role:[1,2],
       },
       children:[
         {
@@ -28,14 +31,14 @@ const router = createRouter({
           path:"",
           component:()=> import("@/views/admin/home/IndexView.vue"),
           meta:{
-            title:"首页"
+            title:"首页",
           }
         },
         {
           name:"userCenter",
           path:"user_center",
           meta:{
-            title:"个人中心"
+            title:"个人中心",
           },
           children:[
             {
@@ -52,7 +55,8 @@ const router = createRouter({
           name:"userManage",
           path:"user_manage",
           meta:{
-            title:"用户管理"
+            title:"用户管理",
+            role:[1],
           },
           children:[
             {
@@ -76,7 +80,8 @@ const router = createRouter({
               name:"settings",
               path:"settings",
               meta:{
-                title:"系统配置"
+                title:"系统配置",
+                role:[1],
               },
               component:()=> import("@/views/admin/settings_manage/IndexView.vue"),
             }
@@ -88,7 +93,29 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  NProgress.start();//开启进度条
+  //判断是否需要登录
+  if(to.meta.role){
+    //判断当前用户在不在列表里
+    const store =userStorei()
+    if (!store.isLogin){
+      //没有登陆
+      Message.warning("您没有登录,请先登录")
+      router.push({
+        name: "login",
+        query:{
+          redirect:to.path
+        }
+      })
+      return
+    }
+    if(!to.meta.role.includes(store.userInfo.role)){
+      Message.warning("您没有权限访问该页面")
+      router.push(from.path)
+      return
+    }
+    NProgress.start();//开启进度条
+
+  }
   next()
 })
 //当路由进入后,关闭进度条

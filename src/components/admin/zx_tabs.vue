@@ -112,8 +112,8 @@ onMounted(() => {
 <template>
 <div class="zx_tabs">
   <swiper class="zx_tabs_swiper" :slides-per-view="slideCount">
-    <swiper-slide v-for="item in tabs" :class="{active: route.name===item.name}">
-      <div class="item" @click="check(item)" :class="{active: route.name===item.name}">
+    <swiper-slide v-for="item in tabs" :class="{active: route.name===item.name || route.name === 'admin'}">
+      <div class="item" @click="check(item)" :class="{active: route.name===item.name||route.name === 'admin'}">
         {{ item.title }}
         <span class="close" title="删除" @click.stop="removeItem(item)" v-if="item.name!=='home'">
       <IconClose></IconClose>

@@ -1,11 +1,14 @@
 <script setup lang="ts">
 
 import {type Component, ref,watch} from "vue";
-import {IconHome, IconUser, IconSettings, IconUserGroup} from "@arco-design/web-vue/es/icon";//icon图标
+import {IconHome, IconUser, IconSettings, IconUserGroup} from "@arco-design/web-vue/es/icon";
 import zx_component from "@/components/common/zx_component.vue";
 import {collapsed} from"@/components/admin/zx_menu.ts"
 import router from "@/router";
 import {useRoute} from "vue-router";
+import {userStorei} from "@/stores/user_store.ts";
+import Zx_menu_item from "@/components/admin/zx_menu_item.vue";
+const store=userStorei()
 
 
 const route = useRoute();
@@ -17,6 +20,7 @@ interface MenuItem {
   name: string
   icon?: string|Component//可渲染组件占位,给ico
   children?: MenuItem[]
+  role?: number
 }
 
 
@@ -31,15 +35,15 @@ const menuList : MenuItem[] = [
     ]
   },
   {
-    title:"用户管理", name:"userManage",icon:IconUserGroup,
+    title:"用户管理",role:1, name:"userManage",icon:IconUserGroup,
     children: [
       {title:"用户列表", name:"userList"}
     ]
   },
   {
-    title:"系统设置", name:"settingsManage",icon:IconSettings,
+    title:"系统设置",role:1, name:"settingsManage",icon:IconSettings,
     children: [
-      {title:"系统信息", name:"settings"}
+      {title:"系统信息", name:"settings"},
     ]
   },
 ]
@@ -76,25 +80,7 @@ watch(()=>route.name,()=>{
         v-model:selected-keys="selectedKeys"
         show-collapse-button
       >
-        <template v-for="menu in menuList">
-          <a-menu-item :key="menu.name" v-if="!menu.children">
-            <template #icon>
-              <zx_component :is="menu.icon"></zx_component>
-            </template>
-            {{ menu.title}}
-          </a-menu-item>
-          <a-sub-menu v-else :key="menu.name" :title="menu.title" >
-            <template #icon>
-              <zx_component :is="menu.icon"></zx_component>
-            </template>
-            <a-menu-item :key="sub.name" v-for="sub in menu.children">
-              <template #icon>
-                <zx_component :is="sub.icon"></zx_component>
-              </template>
-              {{ sub.title}}
-            </a-menu-item>
-          </a-sub-menu>
-        </template>
+        <zx_menu_item :list="menuList" />
       </a-menu>
     </div>
   </div>

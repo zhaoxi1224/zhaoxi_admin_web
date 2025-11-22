@@ -1,11 +1,8 @@
 <script setup lang="ts">
+import { userStorei } from '@/stores/user_store'
 
-import {userListApi} from "@/api/user_api.ts";
-
-userListApi().then(res => {
-  console.log(res)
-})
-
+const store=userStorei()
+store.loadUserInfo()
 </script>
 
 <template>

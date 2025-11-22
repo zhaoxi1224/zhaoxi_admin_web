@@ -37,11 +37,14 @@ export default defineConfig((config)=>{
     },
     server:{
       host: "0.0.0.0",
-      port: 8080,
+      port: 8070,
       proxy:{
         "/api":{
           target: env.VITE_SERVER_URL,
-          rewrite:(path)=>path.replace("/api",'')
+          // rewrite:(path)=>path.replace("/api",'')
+        },
+        "/uploads":{
+          target: env.VITE_SERVER_URL,
         }
       }
     },

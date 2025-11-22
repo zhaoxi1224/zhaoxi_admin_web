@@ -9,8 +9,12 @@ import '@arco-design/web-vue/dist/arco.css';
 import "nprogress/nprogress.css"
 import '@/assets/public.less'
 import '@/assets/iconfont.css'
+import {apiMock} from "@/mock"
+
+
 const app = createApp(App)
 
+apiMock()
 app.use(createPinia())
 app.use(router)
 app.use(ArcoVue)
